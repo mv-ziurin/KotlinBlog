@@ -4,28 +4,47 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.annotation.StringRes
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinblog.R
+import com.example.kotlinblog.databinding.FragmentBlogBinding
+import com.example.kotlinblog.injection.ViewModelFactory
+import com.google.android.material.snackbar.Snackbar
+
 
 class BlogFragment : Fragment() {
 
-    private lateinit var blogViewModel: BlogViewModel
+    private lateinit var postListViewModel: PostListViewModel
+    private lateinit var binding: FragmentBlogBinding
+    private var errorSnackbar: Snackbar? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
-        blogViewModel =
-            ViewModelProviders.of(this).get(BlogViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_blog, container, false)
-        val textView: TextView = root.findViewById(R.id.text_blog)
-        blogViewModel.text.observe(this, Observer {
-            textView.text = it
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_blog, container, false)
+        binding.postList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        postListViewModel = ViewModelProviders.of(this, ViewModelFactory(context!!)).get(PostListViewModel::class.java)
+        postListViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+                errorMessage -> if(errorMessage != null) showError(errorMessage) else hideError()
         })
-        return root
+        binding.viewModel = postListViewModel
+        return binding.root
+    }
+
+    private fun showError(@StringRes errorMessage: Int) {
+        errorSnackbar = Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_INDEFINITE)
+        errorSnackbar?.setAction(R.string.retry, postListViewModel.errorClickListener)
+        errorSnackbar?.show()
+    }
+
+    private fun hideError() {
+        errorSnackbar?.dismiss()
     }
 }
