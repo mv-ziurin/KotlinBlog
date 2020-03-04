@@ -8,12 +8,10 @@ import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinblog.R
 import com.example.kotlinblog.databinding.FragmentBlogBinding
-import com.example.kotlinblog.injection.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -30,7 +28,7 @@ class BlogFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_blog, container, false)
         binding.postList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        postListViewModel = ViewModelProviders.of(this, ViewModelFactory(context!!)).get(PostListViewModel::class.java)
+        postListViewModel = PostListViewModel()
         postListViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
                 errorMessage -> if(errorMessage != null) showError(errorMessage) else hideError()
         })
