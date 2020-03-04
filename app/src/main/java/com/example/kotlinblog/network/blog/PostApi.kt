@@ -1,4 +1,4 @@
-package com.example.kotlinblog.network
+package com.example.kotlinblog.network.blog
 
 import com.example.kotlinblog.model.blog.Post
 import io.reactivex.Observable
