@@ -8,6 +8,7 @@ import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinblog.R
@@ -28,6 +29,7 @@ class BlogFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_blog, container, false)
         binding.postList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        binding.postList.addItemDecoration(DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL))
         postListViewModel = PostListViewModel()
         postListViewModel.errorMessage.observe(viewLifecycleOwner, Observer {
                 errorMessage -> if(errorMessage != null) showError(errorMessage) else hideError()

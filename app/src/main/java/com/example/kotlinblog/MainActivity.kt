@@ -9,7 +9,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.kotlinblog.ui.blog.BlogFragment
 import com.example.kotlinblog.ui.news.NewsFragment
-import com.example.kotlinblog.ui.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_blog, R.id.navigation_news, R.id.navigation_search))
+                R.id.navigation_blog, R.id.navigation_news))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
@@ -38,12 +37,6 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.navigation_news -> {
                 val fragment = NewsFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.simpleName)
-                    .commit()
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_search -> {
-                val fragment = SearchFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.simpleName)
                     .commit()
                 return@OnNavigationItemSelectedListener true
