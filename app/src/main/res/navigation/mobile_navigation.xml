@@ -17,9 +17,4 @@
         android:label="@string/title_news"
         tools:layout="@layout/fragment_news" />
 
-    <fragment
-        android:id="@+id/navigation_search"
-        android:name="com.example.kotlinblog.ui.search.SearchFragment"
-        android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
 </navigation>

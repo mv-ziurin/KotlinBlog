@@ -8,12 +8,14 @@ import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinblog.R
 import com.example.kotlinblog.databinding.FragmentNewsBinding
 import com.google.android.material.snackbar.Snackbar
+import androidx.recyclerview.widget.DividerItemDecoration
+
+
 
 class NewsFragment : Fragment() {
 
@@ -28,6 +30,7 @@ class NewsFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_news, container, false)
         binding.articleList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        binding.articleList.addItemDecoration(DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL))
         articleListViewModel = ArticleListViewModel()
         articleListViewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
             if (errorMessage != null) showError(errorMessage) else hideError()
